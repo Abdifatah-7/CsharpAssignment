@@ -1,8 +1,8 @@
-﻿namespace Business.Helper;
+﻿namespace Business.Helpers;
 
 public static class GenerateUnikIdentification
 {
-    public static string GenerateUnikId()
+    public static string GenerateUniquekId()
     {
         return Guid.NewGuid().ToString();
     }

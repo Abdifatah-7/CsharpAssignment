@@ -1,23 +1,51 @@
 ﻿using Business.Interfaces;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Text.Json;
 
-namespace Business.Services
+namespace Business.Services;
+
+public class FileService : IFileService
 {
-    public class FileService : IFileService
-    {
-        private readonly string _directoryPath;
-        private readonly string _fileName;
-        public FileService(string directoryPath = "Data", string fileName = "List.json")
-        {
-            
-        }
-        public string GetContentFromFile()
-        {
-            throw new NotImplementedException();
-        }
 
-        public bool SaveContentToFile(string content)
+    private readonly string _directoryPath;
+    private readonly string _filePath;
+
+    public FileService(string directoryPath, string fileName)
+    {
+        _directoryPath = directoryPath;
+        _filePath = Path.Combine(_directoryPath, fileName);
+    }
+
+
+
+    public bool SaveContentToFile(string content)
+    {
+        try
         {
-            throw new NotImplementedException();
+            if (!Directory.Exists(_directoryPath))
+                Directory.CreateDirectory(_directoryPath);
+
+            
+            File.WriteAllText(_filePath,content);
+            return true;
         }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex.Message);
+            return false;
+        }
+    }
+
+
+    public string GetContentFromFile()
+    {
+
+        if (File.Exists(_filePath))
+            return File.ReadAllText(_filePath);
+
+
+        return null!;
+
     }
 }
